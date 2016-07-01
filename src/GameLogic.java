@@ -14,6 +14,7 @@ public class GameLogic {
 
   Sequencer battleSequencer;
   boolean playIsSet;
+  String history = "";
 
   InventoryManager inventoryManager;
 
@@ -65,6 +66,8 @@ public boolean isPlaySet() {
     allyPokemon = new Pokemon(1, inventoryManager);
     enemyPokemon = new Pokemon(0, inventoryManager);
 
+    addToHistory("You were attacked by a wild " + enemyPokemon.displayName + "\nYou chose " + allyPokemon.displayName + ".");
+
     printPokemon();
 
     higherHp = Math.max(allyPokemon.hp, enemyPokemon.hp);
@@ -100,8 +103,10 @@ public boolean isPlaySet() {
       defender.hurtPokemon(attackValue);
       printPokemon();
       System.out.println(defender.displayName + " was hit!");
+      addToHistory(attacker.displayName + " attacked " + defender.displayName + " and hit.");
     } else {
       System.out.println(attacker.displayName + " missed!");
+      addToHistory(attacker.displayName + " attacked " + defender.displayName + " and missed.");
     }
 
     try {
@@ -140,6 +145,7 @@ public boolean isPlaySet() {
   public void checkForFaints() {
     if (enemyPokemon.hp < 1) {
 
+      addToHistory(enemyPokemon.displayName + " fainted.");
       playBattleEndSound();
       System.out.println("\n\n\n\n\n\n\n\n\n" + enemyPokemon.displayName + " fainted!  You won!\n\n\n\n\n");
 
@@ -150,6 +156,7 @@ public boolean isPlaySet() {
 
     } else if (allyPokemon.hp < 1) {
 
+      addToHistory(allyPokemon.displayName + " fainted.");
       playBattleEndSound();
       System.out.println("\n\n\n\n\n\n\n\n\n" + allyPokemon.displayName + " fainted!  You've lost!\n\n\n\n\n");
 
@@ -166,6 +173,7 @@ public boolean isPlaySet() {
 
     if (Math.random() > .5) {
 
+      addToHistory(allyPokemon.displayName + " ran away.");
       playBattleEndSound();
       System.out.println("\n\n\n\n\n\n\n\n\n" + "You got away!\n\n\n\n\n");
 
@@ -175,6 +183,7 @@ public boolean isPlaySet() {
       }
 
     } else {
+      addToHistory(allyPokemon.displayName + " tried to run away, but failed.");
       System.out.println("\n\n\n\n\n\n\n\n\n" + "You didn't manage to get away!\n");
 
       try {
@@ -195,5 +204,15 @@ public boolean isPlaySet() {
 
   }
 
+  public void addToHistory(String addThis) {
+
+    history += "\n";
+    history += addThis;
+
+  }
+
+  public void printHistory() {
+    System.out.println(history);
+  }
 
 }

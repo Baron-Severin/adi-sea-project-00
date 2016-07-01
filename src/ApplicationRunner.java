@@ -19,7 +19,7 @@ public class ApplicationRunner {
 
 
     System.out.println("\nWelcome to Dianna's Dinosaur & Donut Emporium's inventory system! \n\n");
-    System.out.println("Available commands are 'Add', 'List', 'Delete', 'Help', and 'Quit'\n\n\n");
+    System.out.println("Available commands are 'Add', 'List', 'Delete', 'Help', 'Save', 'Load', and 'Quit'\n\n\n");
 
     try {
       Thread.sleep(500);
@@ -28,7 +28,8 @@ public class ApplicationRunner {
     }
 
     while (true) {
-      applicationRunner.collectInput(gameLogic);
+      applicationRunner.setUpReferences(inventoryManager, gameLogic);
+      applicationRunner.collectInput(gameLogic, inventoryManager);
     }
 
   }
@@ -38,11 +39,13 @@ public class ApplicationRunner {
     gameLogic.inventoryManager = inventoryManager;
   }
 
-  private void collectInput (GameLogic gameLogic) {
+  private void collectInput (GameLogic gameLogic, InventoryManager inventoryManager) {
+
+
     if (!(gameLogic.isPlaySet())) {
       System.out.println("Please input your command");
     } else {
-      System.out.println("Commands are 'Attack' and 'Run'");
+      System.out.println("Commands are 'Attack', 'Run', and 'History'");
     }
 
     Scanner input = new Scanner(System.in);
@@ -59,16 +62,16 @@ public class ApplicationRunner {
     }
 
     else if (userInput.equals("delete")) {
-      callDelete();
+      callDelete(inventoryManager);
     }
 
-//    else if (userInput.equals("save")) {
-//      callSave();
-//    }
-//
-//    else if (userInput.equals("load")) {
-//      callLoad();
-//    }
+    else if (userInput.equals("save")) {
+      inventoryManager.saveInventory();
+    }
+
+    else if (userInput.equals("load")) {
+      inventoryManager.loadInventory();
+    }
 
     else if (userInput.length() >= 4 && (userInput.substring(0, 4).equals("help"))){
       callHelp();
@@ -105,9 +108,13 @@ public class ApplicationRunner {
       gameLogic.callRun();
     }
 
+    else if (userInput.equals("history") && playIsSet) {
+      gameLogic.printHistory();
+    }
+
     else {
       System.out.println("I didn't understand that, could you try again?");
-      collectInput(gameLogic);
+      collectInput(gameLogic, inventoryManager);
     }
 
 
@@ -169,7 +176,6 @@ public class ApplicationRunner {
 
   private void callList() {
 
-//        listInventory();
 
     Object[] keys = inventory.keySet().toArray();
 
@@ -186,7 +192,7 @@ public class ApplicationRunner {
     }
   }
 
-  private void callDelete() {
+  private void callDelete(InventoryManager inventoryManager) {
 
     if (!isDeleteValid(1)) {
       System.out.println("There isn't anything here to delete yet.");
@@ -219,7 +225,7 @@ public class ApplicationRunner {
             Thread.currentThread().interrupt();
           }
 
-          callDelete();
+          callDelete(inventoryManager);
 
         }
 
@@ -233,6 +239,8 @@ public class ApplicationRunner {
     System.out.println("Add  : adds a product to inventory.  Will request product name and quantity.");
     System.out.println("List  : will list current inventory");
     System.out.println("Delete  : will print current inventory then request the index of the object to be deleted");
+    System.out.println("Save  : saves your current list");
+    System.out.println("Load  : loads a saved list");
 
   }
 

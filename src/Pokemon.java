@@ -35,5 +35,4 @@ public class Pokemon {
     hp -= howMuch;
   }
 
-
 }
