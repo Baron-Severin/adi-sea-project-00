@@ -9,7 +9,7 @@ public class Pokemon {
   int hp;
   String displayName;
 
-  public Pokemon(int setTeam) {
+  public Pokemon(int setTeam, InventoryManager inventoryManager) {
 
     if (setTeam == 1) {
       team = "ally";
@@ -17,7 +17,7 @@ public class Pokemon {
       team = "enemy";
     }
 
-    HashMap<String, Integer> inventory = ApplicationRunner.inventory;
+    HashMap<String, Integer> inventory = inventoryManager.inventory;
 
     Object[] keys = inventory.keySet().toArray();
 
