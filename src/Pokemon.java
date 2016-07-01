@@ -1,8 +1,6 @@
 import java.util.HashMap;
 
-/**
- * Created by erikrudie on 6/30/16.
- */
+
 public class Pokemon {
 
   String team;

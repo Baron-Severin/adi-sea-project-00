@@ -11,12 +11,11 @@ public class ApplicationRunner {
 
   public static void main(String[] args) {
 
+    // instantiate objects and set up references
     ApplicationRunner applicationRunner = new ApplicationRunner();
     GameLogic gameLogic = new GameLogic();
     InventoryManager inventoryManager = new InventoryManager();
-
     applicationRunner.setUpReferences(inventoryManager, gameLogic);
-
 
     System.out.println("\nWelcome to Dianna's Dinosaur & Donut Emporium's inventory system! \n\n");
     System.out.println("Available commands are 'Add', 'List', 'Delete', 'Help', 'Save', 'Load', and 'Quit'\n\n\n");
@@ -27,6 +26,7 @@ public class ApplicationRunner {
       Thread.currentThread().interrupt();
     }
 
+    // update references then check input against menu options
     while (true) {
       applicationRunner.setUpReferences(inventoryManager, gameLogic);
       applicationRunner.collectInput(gameLogic, inventoryManager);
@@ -40,7 +40,6 @@ public class ApplicationRunner {
   }
 
   private void collectInput (GameLogic gameLogic, InventoryManager inventoryManager) {
-
 
     if (!(gameLogic.isPlaySet())) {
       System.out.println("Please input your command");
@@ -92,6 +91,7 @@ public class ApplicationRunner {
       System.out.println("Please add at least two items to call Play");
     }
 
+    // attack enemy, pause, enemy attacks you
     else if (userInput.equals("attack") && playIsSet) {
       gameLogic.callAttack(allyPokemon, enemyPokemon);
 
@@ -117,14 +117,10 @@ public class ApplicationRunner {
       collectInput(gameLogic, inventoryManager);
     }
 
-
-
-
-
-
   }
 
   private void callAdd() {
+
     System.out.println("What product would you like to add?");
 
     Scanner input = new Scanner(System.in);
@@ -168,14 +164,11 @@ public class ApplicationRunner {
       String userInput = input.nextLine().toLowerCase();
 
       productInt = validateInt(userInput);
-      return productInt;
     }
-
-    return(productInt);
+    return productInt;
   }
 
   private void callList() {
-
 
     Object[] keys = inventory.keySet().toArray();
 
@@ -228,7 +221,6 @@ public class ApplicationRunner {
           callDelete(inventoryManager);
 
         }
-
       }
     }
   }
@@ -238,10 +230,9 @@ public class ApplicationRunner {
     System.out.println("Available commands are as follows:");
     System.out.println("Add  : adds a product to inventory.  Will request product name and quantity.");
     System.out.println("List  : will list current inventory");
-    System.out.println("Delete  : will print current inventory then request the index of the object to be deleted");
     System.out.println("Save  : saves your current list");
     System.out.println("Load  : loads a saved list");
-
+    System.out.println("Delete  : will print current inventory then request the index of the object to be deleted");
   }
 
 
@@ -281,10 +272,6 @@ public class ApplicationRunner {
   private static String capitalize(final String line) {
     return Character.toUpperCase(line.charAt(0)) + line.substring(1);
   }
-
-
-
-
 
 }
 
