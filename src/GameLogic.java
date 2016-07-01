@@ -36,14 +36,13 @@ public class GameLogic {
 
   }
 
-public boolean isPlaySet() {
+  public boolean isPlaySet() {
   if (playIsSet) {
     return true;
   } else {
     return false;
   }
 }
-
 
   public void callPlay() {
 

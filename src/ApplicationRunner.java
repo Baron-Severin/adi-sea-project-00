@@ -247,7 +247,6 @@ public class ApplicationRunner {
     printThis("Quit  : exits the program");
   }
 
-
   private void addProduct(String object, int quantity) {
 
     int currentStock = quantity;
