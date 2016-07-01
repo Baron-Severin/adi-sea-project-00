@@ -4,8 +4,9 @@ import java.util.HashMap;
 
 public class InventoryManager implements Serializable {
 
-    HashMap<String, Integer> inventory;
+  HashMap<String, Integer> inventory;
   File theDir;
+  ConsoleLogger logger = new ConsoleLogger();
 
   public InventoryManager() {
     inventory = new HashMap<String, Integer>();
@@ -24,7 +25,7 @@ public class InventoryManager implements Serializable {
       catch(SecurityException se){
       }
       if(result) {
-        System.out.println("DIR created");
+        logger.centerText("DIR created");
       }
     }
 
@@ -36,7 +37,7 @@ public class InventoryManager implements Serializable {
       out.writeObject(inventory);
       out.close();
       fileOut.close();
-      System.out.println("Inventory successfully saved.");
+      logger.centerText("Inventory successfully saved.");
     }catch(IOException i)
     {
       i.printStackTrace();
@@ -51,14 +52,14 @@ public class InventoryManager implements Serializable {
       inventory = (HashMap<String, Integer>) in.readObject();
       in.close();
       fileIn.close();
-      System.out.println("Inventory successfully loaded.");
+      logger.centerText("Inventory successfully loaded.");
     }catch(IOException i)
     {
-      System.out.println("Saved inventory not found");
+      logger.centerText("Saved inventory not found");
       return;
     }catch(ClassNotFoundException c)
     {
-      System.out.println("Saved inventory not found");
+      logger.centerText("Saved inventory not found");
       return;
     }
   }

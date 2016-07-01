@@ -17,8 +17,11 @@ public class ApplicationRunner {
     InventoryManager inventoryManager = new InventoryManager();
     applicationRunner.setUpReferences(inventoryManager, gameLogic);
 
-    System.out.println("\nWelcome to Dianna's Dinosaur & Donut Emporium's inventory system! \n\n");
-    System.out.println("Available commands are 'Add', 'List', 'Delete', 'Help', 'Save', 'Load', and 'Quit'\n\n\n");
+    ConsoleLogger tempLogger = new ConsoleLogger();
+    tempLogger.centerText("\nWelcome to Dianna's Dinosaur & Donut Emporium's inventory system! \n\n");
+    tempLogger.centerText("Available commands are 'Add', 'List', 'Delete', 'Help', 'Save', 'Load', and 'Quit'");
+    System.out.println("\n\n\n");
+    tempLogger = null;
 
     try {
       Thread.sleep(500);
@@ -33,6 +36,11 @@ public class ApplicationRunner {
     }
 
   }
+  
+  private void printThis(String text) {
+    ConsoleLogger logger = new ConsoleLogger();
+    logger.centerText(text);
+  }
 
   private void setUpReferences(InventoryManager inventoryManager, GameLogic gameLogic) {
     inventory = inventoryManager.inventory;
@@ -42,9 +50,11 @@ public class ApplicationRunner {
   private void collectInput (GameLogic gameLogic, InventoryManager inventoryManager) {
 
     if (!(gameLogic.isPlaySet())) {
-      System.out.println("Please input your command");
+      printThis("Please input your command");
+      System.out.println("\n\n");
     } else {
-      System.out.println("Commands are 'Attack', 'Run', and 'History'");
+      printThis("Commands are 'Attack', 'Run', and 'History'");
+      System.out.println("\n\n");
     }
 
     Scanner input = new Scanner(System.in);
@@ -88,7 +98,7 @@ public class ApplicationRunner {
     }
 
     else if (userInput.equals("play") && !(inventory.size() >= 2)) {
-      System.out.println("Please add at least two items to call Play");
+      printThis("Please add at least two items to call Play");
     }
 
     // attack enemy, pause, enemy attacks you
@@ -113,7 +123,7 @@ public class ApplicationRunner {
     }
 
     else {
-      System.out.println("I didn't understand that, could you try again?");
+      printThis("I didn't understand that, could you try again?");
       collectInput(gameLogic, inventoryManager);
     }
 
@@ -121,13 +131,13 @@ public class ApplicationRunner {
 
   private void callAdd() {
 
-    System.out.println("What product would you like to add?");
+    printThis("What product would you like to add?");
 
     Scanner input = new Scanner(System.in);
     String newProduct = input.nextLine().toLowerCase();
     newProduct = capitalize(newProduct);
 
-    System.out.println("How many would you like to add?");
+    printThis("How many would you like to add?");
 
     int productInt = addHowMany();
 
@@ -142,7 +152,7 @@ public class ApplicationRunner {
     int productInt = validateInt(productQuantity);
 
     if (productInt <= 0){
-      System.out.println("I'm sorry, that doesn't appear to be a valid number.  Can you try again?");
+      printThis("I'm sorry, that doesn't appear to be a valid number.  Can you try again?");
       productInt = addHowMany();
     }
 
@@ -157,8 +167,8 @@ public class ApplicationRunner {
     try {
       productInt = Integer.parseInt(number);
     } catch (NumberFormatException exception) {
-      System.out.println("I'm sorry, I didn't understand that");
-      System.out.println("Could you please try again with Arabic numerals?");
+      printThis("I'm sorry, I didn't understand that");
+      printThis("Could you please try again with Arabic numerals?");
 
       Scanner input = new Scanner(System.in);
       String userInput = input.nextLine().toLowerCase();
@@ -173,14 +183,14 @@ public class ApplicationRunner {
     Object[] keys = inventory.keySet().toArray();
 
     if (inventory.size() == 0) {
-      System.out.println("No items found");
+      printThis("No items found");
     }
 
     for (int i = 0; i < inventory.size(); i++) {
 
       int j = i + 1;
 
-      System.out.println(j + ". " + keys[i] + " --- " + inventory.get(keys[i]));
+      printThis(j + ". " + keys[i] + " --- " + inventory.get(keys[i]));
 
     }
   }
@@ -188,14 +198,14 @@ public class ApplicationRunner {
   private void callDelete(InventoryManager inventoryManager) {
 
     if (!isDeleteValid(1)) {
-      System.out.println("There isn't anything here to delete yet.");
+      printThis("There isn't anything here to delete yet.");
 
     } else {
 
       callList();
 
-      System.out.println("Return: cancel deletion and return to menu.");
-      System.out.println("Which item would you like to delete (please enter a number)?");
+      printThis("Return: cancel deletion and return to menu.");
+      printThis("Which item would you like to delete (please enter a number)?");
 
       Scanner input = new Scanner(System.in);
       String deleteIndex = input.nextLine().toLowerCase();
@@ -211,7 +221,7 @@ public class ApplicationRunner {
 
         } else {
 
-          System.out.println("That item number does not appear to be in the list.  Could you please try again?");
+          printThis("That item number does not appear to be in the list.  Could you please try again?");
           try {
             Thread.sleep(500);
           } catch (InterruptedException ex) {
@@ -227,12 +237,14 @@ public class ApplicationRunner {
 
   private void callHelp() {
 
-    System.out.println("Available commands are as follows:");
-    System.out.println("Add  : adds a product to inventory.  Will request product name and quantity.");
-    System.out.println("List  : will list current inventory");
-    System.out.println("Save  : saves your current list");
-    System.out.println("Load  : loads a saved list");
-    System.out.println("Delete  : will print current inventory then request the index of the object to be deleted");
+    printThis("Available commands are as follows:");
+    printThis("Add  : adds a product to inventory.  Will request product name and quantity.");
+    printThis("List  : will list current inventory");
+    printThis("Delete  : will print current inventory then request the index of the object to be deleted");
+    printThis("Save  : saves your current list");
+    printThis("Load  : loads a saved list");
+    printThis("Play  : begins gameplay (requires that at least two inventory items have been added)");
+    printThis("Quit  : exits the program");
   }
 
 
@@ -248,7 +260,7 @@ public class ApplicationRunner {
 
     inventory.put(object, currentStock);
 
-    System.out.println("Product added to stock: " + object + ". Quantity added: " + quantity + ".  Current total: " + currentStock);
+    printThis("Product added to stock: " + object + ". Quantity added: " + quantity + ".  Current total: " + currentStock);
   }
 
   private boolean isDeleteValid (int index) {
@@ -265,7 +277,7 @@ public class ApplicationRunner {
 
     inventory.remove(keys[index-1]);
 
-    System.out.println(keys[index-1] + " removed from inventory");
+    printThis(keys[index-1] + " removed from inventory");
 
   }
 

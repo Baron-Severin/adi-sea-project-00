@@ -15,6 +15,7 @@ public class GameLogic {
   String history = "";
 
   InventoryManager inventoryManager;
+  ConsoleLogger logger;
 
   int higherHp;
   int attackValue;
@@ -23,6 +24,8 @@ public class GameLogic {
 
     higherHp = 0;
     attackValue = 0;
+
+    logger = new ConsoleLogger();
 
     try {
       battleSequencer = MidiSystem.getSequencer();
@@ -78,18 +81,21 @@ public boolean isPlaySet() {
   public void printPokemon() {
 
     System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    System.out.println(enemyPokemon.displayName + " Hit Points: " + enemyPokemon.hp + "\n");
-    System.out.println("                         " + enemyPokemon.displayName);
-    System.out.println("\n\n\n\n");
-    System.out.println(allyPokemon.displayName + "\n");
-    System.out.println(allyPokemon.displayName + " Hit Points: " + allyPokemon.hp + "\n");
+    logger.centerText(enemyPokemon.displayName + " Hit Points: " + enemyPokemon.hp);
+    System.out.println("");
+    logger.centerText("                         " + enemyPokemon.displayName);
+    System.out.println("\n\n\n\n\n\n");
+    logger.centerText(allyPokemon.displayName + "                  ");
+    System.out.println("");
+    logger.centerText(allyPokemon.displayName + " Hit Points: " + allyPokemon.hp);
+    System.out.println("");
 
   }
 
   public void callAttack(Pokemon attacker, Pokemon defender) {
 
     printPokemon();
-    System.out.println(attacker.displayName +" is attacking!");
+    logger.centerText(attacker.displayName +" is attacking!");
 
     try {
       Thread.sleep(1500);
@@ -100,10 +106,10 @@ public boolean isPlaySet() {
 
       defender.hurtPokemon(attackValue);
       printPokemon();
-      System.out.println(defender.displayName + " was hit!");
+      logger.centerText(defender.displayName + " was hit!");
       addToHistory(attacker.displayName + " attacked " + defender.displayName + " and hit.");
     } else {
-      System.out.println(attacker.displayName + " missed!");
+      logger.centerText(attacker.displayName + " missed!");
       addToHistory(attacker.displayName + " attacked " + defender.displayName + " and missed.");
     }
 
@@ -145,23 +151,31 @@ public boolean isPlaySet() {
 
       addToHistory(enemyPokemon.displayName + " fainted.");
       playBattleEndSound();
-      System.out.println("\n\n\n\n\n\n\n\n\n" + enemyPokemon.displayName + " fainted!  You won!\n\n\n\n\n");
+      System.out.println("\n\n\n\n\n\n\n\n\n");
+      logger.centerText("\n\n\n\n\n\n\n\n\n" + enemyPokemon.displayName + " fainted!  You won!\n\n\n\n\n");
 
       try {
-        Thread.sleep(300000);
+//        Thread.sleep(300000);
+        Thread.sleep(3000);
       } catch (InterruptedException ex) {
       }
+
+      printPicachu();
 
     } else if (allyPokemon.hp < 1) {
 
       addToHistory(allyPokemon.displayName + " fainted.");
       playBattleEndSound();
-      System.out.println("\n\n\n\n\n\n\n\n\n" + allyPokemon.displayName + " fainted!  You've lost!\n\n\n\n\n");
+      System.out.println("\n\n\n\n\n\n\n\n\n\n");
+      logger.centerText("\n\n\n\n\n\n\n\n\n" + allyPokemon.displayName + " fainted!  You've lost!\n\n\n\n\n");
 
       try {
-        Thread.sleep(300000);
+//        Thread.sleep(300000);
+        Thread.sleep(3000);
       } catch (InterruptedException ex) {
       }
+
+      printPicachu();
 
     }
 
@@ -173,23 +187,28 @@ public boolean isPlaySet() {
 
       addToHistory(allyPokemon.displayName + " ran away.");
       playBattleEndSound();
-      System.out.println("\n\n\n\n\n\n\n\n\n" + "You got away!\n\n\n\n\n");
+      System.out.println("\n\n\n\n\n\n\n\n\n\n");
+      logger.centerText("\n\n\n\n\n\n\n\n\n" + "You got away!\n\n\n\n\n");
 
       try {
-        Thread.sleep(300000);
+//        Thread.sleep(300000);
+        Thread.sleep(3000);
       } catch (InterruptedException ex) {
       }
 
+      printPicachu();
+
     } else {
       addToHistory(allyPokemon.displayName + " tried to run away, but failed.");
-      System.out.println("\n\n\n\n\n\n\n\n\n" + "You didn't manage to get away!\n");
+      System.out.println("\n\n\n\n\n\n\n\n\n\n");
+      logger.centerText("\n\n\n\n\n\n\n\n\n" + "You didn't manage to get away!\n");
 
       try {
         Thread.sleep(1000);
       } catch (InterruptedException ex) {
       }
 
-      System.out.println(enemyPokemon.displayName + " is attacking!");
+      logger.centerText(enemyPokemon.displayName + " is attacking!");
 
       try {
         Thread.sleep(1250);
@@ -210,7 +229,43 @@ public boolean isPlaySet() {
   }
 
   public void printHistory() {
-    System.out.println(history);
+    logger.centerText(history);
+  }
+
+  public void printPicachu() {
+
+    System.out.println("   ¶           ¶¶¶");
+    System.out.println("   ¶¶          ¶__¶");
+    System.out.println("    ¶__¶         ¶___¶");
+    System.out.println("    ¶___¶        ¶___¶");
+    System.out.println("    ¶____¶       ¶____¶¶¶¶¶¶");
+    System.out.println("    ¶_____¶      ¶__________¶¶");
+    System.out.println("    ¶______¶¶¶  ¶_¶¶_________¶¶¶¶¶¶¶¶¶¶¶¶¶");
+    System.out.println("    ¶_____¶___¶¶_¶¶¶¶________________¶¶¶¶");
+    System.out.println("   ¶___¶___¶¶___¶¶___________¶¶¶¶¶¶");
+    System.out.println("    ¶__¶__¶___¶_____¶___¶¶¶¶_¶");
+    System.out.println("     ¶_¶_¶______________¶¶¶¶_¶");
+    System.out.println("    ¶¶¶__¶¶_________¶¶¶¶______¶");
+    System.out.println("    ¶___¶__¶_________¶¶____¶__¶");
+    System.out.println("   ¶___¶_¶_________________¶");
+    System.out.println("    ¶__¶_¶________________¶¶");
+    System.out.println("     ¶_¶¶___________________¶¶");
+    System.out.println("      ¶¶_________________¶¶___¶");
+    System.out.println("      ¶_________________¶__¶___¶");
+    System.out.println("     ¶_________________¶____¶¶¶¶");
+    System.out.println("    ¶___________________¶");
+    System.out.println("    ¶____________________¶");
+    System.out.println("    ¶_____¶¶¶¶¶¶¶¶_______¶");
+    System.out.println("     ¶__¶¶        ¶¶____¶");
+    System.out.println("     ¶__¶           ¶____¶¶");
+    System.out.println("    ¶¶¶¶             ¶¶¶¶¶¶¶¶");
+
+    try {
+      Thread.sleep(30000);
+    } catch (InterruptedException ex) {
+
+    }
+    System.exit(0);
   }
 
 }
