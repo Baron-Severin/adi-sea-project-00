@@ -15,19 +15,7 @@ public class InventoryManager implements Serializable {
 
   public void saveInventory() {
 
-    if (!theDir.exists()) {
-      boolean result = false;
-
-      try{
-        theDir.mkdir();
-        result = true;
-      }
-      catch(SecurityException se){
-      }
-      if(result) {
-        logger.centerText("DIR created");
-      }
-    }
+      theDir.delete();
 
     try
     {
